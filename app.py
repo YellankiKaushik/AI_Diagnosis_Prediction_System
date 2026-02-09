@@ -2,45 +2,104 @@ import streamlit as st
 import pickle
 from streamlit_option_menu import option_menu
 
-# Change Name & Logo
-st.set_page_config(page_title="Disease Prediction", page_icon="⚕️")
+# --------------------------------------------------
+# Page Configuration
+# --------------------------------------------------
+st.set_page_config(
+    page_title="AI Diagnosis Prediction System",
+    page_icon="⚕️",
+    layout="centered"
+)
 
-# Hiding Streamlit add-ons
+# --------------------------------------------------
+# Hide Streamlit Default UI Elements
+# --------------------------------------------------
 hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-# Adding Background Image
-background_image_url = "https://www.shutterstock.com/image-photo/hand-touching-modern-interface-digital-600nw-1927651358.jpg"  # Replace with your image URL
+# --------------------------------------------------
+# Background Styling (Professional & Subtle)
+# --------------------------------------------------
+background_image_url = "https://www.shutterstock.com/image-photo/hand-touching-modern-interface-digital-600nw-1927651358.jpg"
 
-page_bg_img = f"""
+page_bg = f"""
 <style>
 [data-testid="stAppViewContainer"] {{
-background-image: url({background_image_url});
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-background-attachment: fixed;
+    background-image: url({background_image_url});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }}
 
 [data-testid="stAppViewContainer"]::before {{
-content: "";
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.7);
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
 }}
 </style>
 """
-st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(page_bg, unsafe_allow_html=True)
 
+# --------------------------------------------------
+# Hero Section
+# --------------------------------------------------
+st.title("AI Diagnosis Prediction System")
+st.markdown(
+    """
+    **An AI-powered decision support system designed to demonstrate how machine learning models
+    can assist in disease risk assessment based on structured health parameters.**
+    """
+)
+
+st.markdown("---")
+
+# --------------------------------------------------
+# System Context
+# --------------------------------------------------
+st.markdown(
+    """
+    ### System Overview
+    This application integrates multiple trained machine learning models to estimate the likelihood
+    of specific medical conditions based on user-provided clinical attributes.
+
+    **Intended Use:**
+    - Educational demonstrations
+    - Academic projects
+    - AI system prototyping
+
+    **Not Intended For:**
+    - Clinical diagnosis
+    - Medical decision-making
+    """
+)
+
+st.markdown("---")
+
+# --------------------------------------------------
+# How to Use
+# --------------------------------------------------
+st.markdown(
+    """
+    ### How to Use This System
+    1. Select a disease category from the dropdown below.
+    2. Enter the required health parameters.
+    3. Submit the form to view the model's prediction.
+    """
+)
+
+st.markdown("---")
+
+# --------------------------------------------------
+# Load Models
+# --------------------------------------------------
 models = {
     'diabetes': pickle.load(open('MODELS/diabetes_model.sav', 'rb')),
     'heart': pickle.load(open('MODELS/heart_disease_model.sav', 'rb')),
@@ -49,22 +108,29 @@ models = {
     'thyroid': pickle.load(open('MODELS/Thyroid_model.sav', 'rb'))
 }
 
-
-# Create a dropdown menu for disease prediction
+# --------------------------------------------------
+# Disease Selection
+# --------------------------------------------------
 selected = st.selectbox(
-    'Select a Disease to Predict',
-    ['Diabetes Prediction',
-     'Heart Disease Prediction',
-     'Parkinsons Prediction',
-     'Lung Cancer Prediction',
-     'Hypo-Thyroid Prediction']
+    "Select Disease Category",
+    [
+        "Diabetes Prediction",
+        "Heart Disease Prediction",
+        "Parkinsons Prediction",
+        "Lung Cancer Prediction",
+        "Hypo-Thyroid Prediction"
+    ]
 )
 
-def display_input(label, tooltip, key, type="text"):
-    if type == "text":
-        return st.text_input(label, key=key, help=tooltip)
-    elif type == "number":
-        return st.number_input(label, key=key, help=tooltip, step=1)
+# --------------------------------------------------
+# Input Helper
+# --------------------------------------------------
+def display_input(label, tooltip, key):
+    return st.number_input(label, help=tooltip, key=key)
+
+# --------------------------------------------------
+# (Your existing prediction sections remain unchanged below)
+# --------------------------------------------------
 
 # Diabetes Prediction Page
 if selected == 'Diabetes Prediction':

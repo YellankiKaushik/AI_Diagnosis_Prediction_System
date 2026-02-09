@@ -255,5 +255,91 @@ with tab_predict:
 # TAB 2 — ABOUT SYSTEM (Placeholder for Phase 3B)
 # ==================================================
 with tab_about:
-    st.header("About the System")
-    st.info("Detailed system explanation will be added in Phase 3B.")
+
+    st.header("📊 About the System")
+
+    st.markdown("""
+    ### 🧠 1. What is this system?
+
+    The **AI Diagnosis Prediction System** is a machine learning–based decision support application
+    designed to demonstrate how predictive models can estimate the *risk likelihood* of certain
+    medical conditions based on structured health parameters.
+
+    This system does **not** perform real medical diagnosis.
+    Instead, it showcases how trained models respond to clinical-style inputs in a controlled,
+    educational environment.
+    """)
+
+    st.markdown("""
+    ### 🎯 2. Why this system was built
+
+    The primary objective of this project is to:
+
+    - Demonstrate **end-to-end AI system design**
+    - Bridge the gap between **machine learning models and user-facing applications**
+    - Provide a hands-on example of **ML model deployment**
+    - Serve as a **portfolio-grade academic and learning project**
+
+    Many ML projects stop at notebooks.
+    This system focuses on **taking trained models into a usable application layer**.
+    """)
+
+    st.markdown("""
+    ### 🔄 3. How the system works (End-to-End Flow)
+
+    The system follows a structured pipeline:
+
+    1. A user selects a disease category  
+    2. The user enters structured clinical parameters  
+    3. Input values are passed directly to a pre-trained ML model  
+    4. The model performs inference using learned patterns  
+    5. A classification result is returned and displayed  
+
+    Each disease prediction is handled by a **separate, independently trained model**,
+    ensuring clear separation of logic and responsibility.
+    """)
+
+    st.markdown("""
+    ### 🤖 4. Machine Learning models used
+
+    The system integrates multiple supervised learning models, including:
+
+    - **Logistic Regression**
+    - **Support Vector Machines (SVM)**
+    - **Tree-based classifiers**
+
+    Each model was trained on domain-specific datasets containing
+    structured health attributes relevant to the corresponding disease.
+
+    Models are serialized and loaded at runtime to enable fast,
+    real-time prediction without retraining.
+    """)
+
+    st.markdown("""
+    ### ⚠️ 5. System limitations
+
+    While this system demonstrates functional AI deployment, it has known limitations:
+
+    - Models are trained on **static datasets**
+    - No real-time medical data integration
+    - No model retraining or feedback loop
+    - Predictions are limited to **binary classification**
+    - Input data is assumed to be clean and valid
+
+    These limitations are intentional to keep the system
+    focused on demonstration and learning objectives.
+    """)
+
+    st.markdown("""
+    ### 🛑 6. Ethical & medical disclaimer
+
+    ⚠️ **Important Notice**
+
+    This application is intended **strictly for educational and demonstration purposes**.
+
+    - It must not be used for medical diagnosis
+    - It must not replace professional healthcare judgment
+    - Predictions should not influence medical decisions
+
+    Always consult qualified healthcare professionals for real medical concerns.
+    """)

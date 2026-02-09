@@ -125,8 +125,11 @@ selected = st.selectbox(
 # --------------------------------------------------
 # Input Helper
 # --------------------------------------------------
-def display_input(label, tooltip, key):
-    return st.number_input(label, help=tooltip, key=key)
+def display_input(label, tooltip, key, input_type="number"):
+    if input_type == "text":
+        return st.text_input(label, help=tooltip, key=key)
+    else:
+        return st.number_input(label, help=tooltip, key=key)
 
 # --------------------------------------------------
 # (Your existing prediction sections remain unchanged below)

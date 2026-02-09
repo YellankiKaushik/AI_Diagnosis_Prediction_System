@@ -1,34 +1,32 @@
 import streamlit as st
 import pickle
-from streamlit_option_menu import option_menu
 
-# --------------------------------------------------
+# ==================================================
 # Page Configuration
-# --------------------------------------------------
+# ==================================================
 st.set_page_config(
     page_title="AI Diagnosis Prediction System",
     page_icon="⚕️",
     layout="centered"
 )
 
-# --------------------------------------------------
-# Hide Streamlit Default UI Elements
-# --------------------------------------------------
-hide_st_style = """
+# ==================================================
+# Hide Streamlit Default UI
+# ==================================================
+st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# --------------------------------------------------
-# Background Styling (Professional & Subtle)
-# --------------------------------------------------
+# ==================================================
+# Background Styling
+# ==================================================
 background_image_url = "https://www.shutterstock.com/image-photo/hand-touching-modern-interface-digital-600nw-1927651358.jpg"
 
-page_bg = f"""
+st.markdown(f"""
 <style>
 [data-testid="stAppViewContainer"] {{
     background-image: url({background_image_url});
@@ -37,225 +35,172 @@ page_bg = f"""
     background-repeat: no-repeat;
     background-attachment: fixed;
 }}
-
 [data-testid="stAppViewContainer"]::before {{
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0,0,0,0.75);
 }}
 </style>
-"""
-st.markdown(page_bg, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# --------------------------------------------------
+# ==================================================
 # Hero Section
-# --------------------------------------------------
+# ==================================================
 st.title("AI Diagnosis Prediction System")
-st.markdown(
-    """
-    **An AI-powered decision support system designed to demonstrate how machine learning models
-    can assist in disease risk assessment based on structured health parameters.**
-    """
-)
-
+st.markdown("""
+**An AI-powered decision support system demonstrating how machine learning models can assist
+in disease risk estimation using structured health parameters.**
+""")
 st.markdown("---")
 
-# --------------------------------------------------
-# System Context
-# --------------------------------------------------
-st.markdown(
-    """
-    ### System Overview
-    This application integrates multiple trained machine learning models to estimate the likelihood
-    of specific medical conditions based on user-provided clinical attributes.
-
-    **Intended Use:**
-    - Educational demonstrations
-    - Academic projects
-    - AI system prototyping
-
-    **Not Intended For:**
-    - Clinical diagnosis
-    - Medical decision-making
-    """
+# ==================================================
+# Top Tabs
+# ==================================================
+tab_predict, tab_about = st.tabs(
+    ["🩺 Disease Prediction", "📊 About the System"]
 )
 
-st.markdown("---")
-
-# --------------------------------------------------
-# How to Use
-# --------------------------------------------------
-st.markdown(
-    """
-    ### How to Use This System
-    1. Select a disease category from the dropdown below.
-    2. Enter the required health parameters.
-    3. Submit the form to view the model's prediction.
-    """
-)
-
-st.markdown("---")
-
-# --------------------------------------------------
-# Load Models
-# --------------------------------------------------
+# ==================================================
+# Load Models (SAFE & CONSISTENT KEYS)
+# ==================================================
 models = {
-    'diabetes': pickle.load(open('MODELS/diabetes_model.sav', 'rb')),
-    'heart': pickle.load(open('MODELS/heart_disease_model.sav', 'rb')),
-    'parkinsons': pickle.load(open('MODELS/parkinsons_model.sav', 'rb')),
-    'lungs': pickle.load(open('MODELS/lungs_disease_model.sav', 'rb')),
-    'thyroid': pickle.load(open('MODELS/Thyroid_model.sav', 'rb'))
+    "diabetes": pickle.load(open("MODELS/diabetes_model.sav", "rb")),
+    "heart": pickle.load(open("MODELS/heart_disease_model.sav", "rb")),
+    "parkinsons": pickle.load(open("MODELS/parkinsons_model.sav", "rb")),
+    "lungs": pickle.load(open("MODELS/lungs_disease_model.sav", "rb")),
+    "thyroid": pickle.load(open("MODELS/Thyroid_model.sav", "rb")),
 }
 
-# --------------------------------------------------
-# Disease Selection
-# --------------------------------------------------
-selected = st.selectbox(
-    "Select Disease Category",
-    [
-        "Diabetes Prediction",
-        "Heart Disease Prediction",
-        "Parkinsons Prediction",
-        "Lung Cancer Prediction",
-        "Hypo-Thyroid Prediction"
-    ]
-)
-
-# --------------------------------------------------
+# ==================================================
 # Input Helper
-# --------------------------------------------------
-def display_input(label, tooltip, key, input_type="number"):
-    if input_type == "text":
-        return st.text_input(label, help=tooltip, key=key)
-    else:
-        return st.number_input(label, help=tooltip, key=key)
+# ==================================================
+def display_input(label, tooltip, key):
+    return st.number_input(label, help=tooltip, key=key)
 
-# --------------------------------------------------
-# (Your existing prediction sections remain unchanged below)
-# --------------------------------------------------
+# ==================================================
+# TAB 1 — DISEASE PREDICTION
+# ==================================================
+with tab_predict:
 
-# Diabetes Prediction Page
-if selected == 'Diabetes Prediction':
-    st.title('Diabetes')
-    st.write("Enter the following details to predict diabetes:")
+    st.subheader("How to Use")
+    st.markdown("""
+    1. Select a disease category  
+    2. Enter clinical parameters  
+    3. Click **Test Result** to view prediction  
+    """)
+    st.markdown("---")
 
-    Pregnancies = display_input('Number of Pregnancies', 'Enter number of times pregnant', 'Pregnancies', 'number')
-    Glucose = display_input('Glucose Level', 'Enter glucose level', 'Glucose', 'number')
-    BloodPressure = display_input('Blood Pressure value', 'Enter blood pressure value', 'BloodPressure', 'number')
-    SkinThickness = display_input('Skin Thickness value', 'Enter skin thickness value', 'SkinThickness', 'number')
-    Insulin = display_input('Insulin Level', 'Enter insulin level', 'Insulin', 'number')
-    BMI = display_input('BMI value', 'Enter Body Mass Index value', 'BMI', 'number')
-    DiabetesPedigreeFunction = display_input('Diabetes Pedigree Function value', 'Enter diabetes pedigree function value', 'DiabetesPedigreeFunction', 'number')
-    Age = display_input('Age of the Person', 'Enter age of the person', 'Age', 'number')
+    selected = st.selectbox(
+        "Select Disease Category",
+        [
+            "Diabetes Prediction",
+            "Heart Disease Prediction",
+            "Parkinsons Prediction",
+            "Lung Cancer Prediction",
+            "Hypo-Thyroid Prediction",
+        ],
+    )
 
-    diab_diagnosis = ''
-    if st.button('Diabetes Test Result'):
-        diab_prediction = models['diabetes'].predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
-        diab_diagnosis = 'The person is diabetic' if diab_prediction[0] == 1 else 'The person is not diabetic'
-        st.success(diab_diagnosis)
+    # ---------------- Diabetes ----------------
+    if selected == "Diabetes Prediction":
+        st.subheader("Diabetes Prediction")
 
-# Heart Disease Prediction Page
-if selected == 'Heart Disease Prediction':
-    st.title('Heart Disease')
-    st.write("Enter the following details to predict heart disease:")
+        Pregnancies = display_input("Pregnancies", "Number of pregnancies", "Pregnancies")
+        Glucose = display_input("Glucose Level", "Plasma glucose concentration", "Glucose")
+        BloodPressure = display_input("Blood Pressure", "Diastolic BP", "BP")
+        SkinThickness = display_input("Skin Thickness", "Triceps skinfold", "Skin")
+        Insulin = display_input("Insulin", "Serum insulin", "Insulin")
+        BMI = display_input("BMI", "Body mass index", "BMI")
+        DPF = display_input("Diabetes Pedigree Function", "Genetic likelihood", "DPF")
+        Age = display_input("Age", "Age of patient", "Age")
 
-    age = display_input('Age', 'Enter age of the person', 'age', 'number')
-    sex = display_input('Sex (1 = male; 0 = female)', 'Enter sex of the person', 'sex', 'number')
-    cp = display_input('Chest Pain types (0, 1, 2, 3)', 'Enter chest pain type', 'cp', 'number')
-    trestbps = display_input('Resting Blood Pressure', 'Enter resting blood pressure', 'trestbps', 'number')
-    chol = display_input('Serum Cholesterol in mg/dl', 'Enter serum cholesterol', 'chol', 'number')
-    fbs = display_input('Fasting Blood Sugar > 120 mg/dl (1 = true; 0 = false)', 'Enter fasting blood sugar', 'fbs', 'number')
-    restecg = display_input('Resting Electrocardiographic results (0, 1, 2)', 'Enter resting ECG results', 'restecg', 'number')
-    thalach = display_input('Maximum Heart Rate achieved', 'Enter maximum heart rate', 'thalach', 'number')
-    exang = display_input('Exercise Induced Angina (1 = yes; 0 = no)', 'Enter exercise induced angina', 'exang', 'number')
-    oldpeak = display_input('ST depression induced by exercise', 'Enter ST depression value', 'oldpeak', 'number')
-    slope = display_input('Slope of the peak exercise ST segment (0, 1, 2)', 'Enter slope value', 'slope', 'number')
-    ca = display_input('Major vessels colored by fluoroscopy (0-3)', 'Enter number of major vessels', 'ca', 'number')
-    thal = display_input('Thal (0 = normal; 1 = fixed defect; 2 = reversible defect)', 'Enter thal value', 'thal', 'number')
+        if st.button("Diabetes Test Result"):
+            result = models["diabetes"].predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DPF, Age]])
+            st.success("Diabetic" if result[0] == 1 else "Not Diabetic")
 
-    heart_diagnosis = ''
-    if st.button('Heart Disease Test Result'):
-        heart_prediction = models['heart_disease'].predict([[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]])
-        heart_diagnosis = 'The person has heart disease' if heart_prediction[0] == 1 else 'The person does not have heart disease'
-        st.success(heart_diagnosis)
+    # ---------------- Heart ----------------
+    elif selected == "Heart Disease Prediction":
+        st.subheader("Heart Disease Prediction")
 
-# Parkinson's Prediction Page
-if selected == "Parkinsons Prediction":
-    st.title("Parkinson's Disease")
-    st.write("Enter the following details to predict Parkinson's disease:")
+        age = display_input("Age", "Age", "h_age")
+        sex = display_input("Sex (1=Male, 0=Female)", "Gender", "h_sex")
+        cp = display_input("Chest Pain Type", "0–3", "cp")
+        trestbps = display_input("Resting BP", "Resting blood pressure", "bp")
+        chol = display_input("Cholesterol", "Serum cholesterol", "chol")
+        fbs = display_input("Fasting Blood Sugar", ">120 mg/dl", "fbs")
+        restecg = display_input("ECG Result", "0–2", "ecg")
+        thalach = display_input("Max Heart Rate", "Max achieved", "thalach")
+        exang = display_input("Exercise Angina", "1=yes,0=no", "exang")
+        oldpeak = display_input("ST Depression", "Induced by exercise", "oldpeak")
+        slope = display_input("Slope", "0–2", "slope")
+        ca = display_input("Major Vessels", "0–3", "ca")
+        thal = display_input("Thalassemia", "0–2", "thal")
 
-    fo = display_input('MDVP:Fo(Hz)', 'Enter MDVP:Fo(Hz) value', 'fo', 'number')
-    fhi = display_input('MDVP:Fhi(Hz)', 'Enter MDVP:Fhi(Hz) value', 'fhi', 'number')
-    flo = display_input('MDVP:Flo(Hz)', 'Enter MDVP:Flo(Hz) value', 'flo', 'number')
-    Jitter_percent = display_input('MDVP:Jitter(%)', 'Enter MDVP:Jitter(%) value', 'Jitter_percent', 'number')
-    Jitter_Abs = display_input('MDVP:Jitter(Abs)', 'Enter MDVP:Jitter(Abs) value', 'Jitter_Abs', 'number')
-    RAP = display_input('MDVP:RAP', 'Enter MDVP:RAP value', 'RAP', 'number')
-    PPQ = display_input('MDVP:PPQ', 'Enter MDVP:PPQ value', 'PPQ', 'number')
-    DDP = display_input('Jitter:DDP', 'Enter Jitter:DDP value', 'DDP', 'number')
-    Shimmer = display_input('MDVP:Shimmer', 'Enter MDVP:Shimmer value', 'Shimmer', 'number')
-    Shimmer_dB = display_input('MDVP:Shimmer(dB)', 'Enter MDVP:Shimmer(dB) value', 'Shimmer_dB', 'number')
-    APQ3 = display_input('Shimmer:APQ3', 'Enter Shimmer:APQ3 value', 'APQ3', 'number')
-    APQ5 = display_input('Shimmer:APQ5', 'Enter Shimmer:APQ5 value', 'APQ5', 'number')
-    APQ = display_input('MDVP:APQ', 'Enter MDVP:APQ value', 'APQ', 'number')
-    DDA = display_input('Shimmer:DDA', 'Enter Shimmer:DDA value', 'DDA', 'number')
-    NHR = display_input('NHR', 'Enter NHR value', 'NHR', 'number')
-    HNR = display_input('HNR', 'Enter HNR value', 'HNR', 'number')
-    RPDE = display_input('RPDE', 'Enter RPDE value', 'RPDE', 'number')
-    DFA = display_input('DFA', 'Enter DFA value', 'DFA', 'number')
-    spread1 = display_input('Spread1', 'Enter spread1 value', 'spread1', 'number')
-    spread2 = display_input('Spread2', 'Enter spread2 value', 'spread2', 'number')
-    D2 = display_input('D2', 'Enter D2 value', 'D2', 'number')
-    PPE = display_input('PPE', 'Enter PPE value', 'PPE', 'number')
+        if st.button("Heart Disease Test Result"):
+            result = models["heart"].predict([[age, sex, cp, trestbps, chol, fbs, restecg,
+                                               thalach, exang, oldpeak, slope, ca, thal]])
+            st.success("Heart Disease Detected" if result[0] == 1 else "No Heart Disease")
 
-    parkinsons_diagnosis = ''
-    if st.button("Parkinson's Test Result"):
-        parkinsons_prediction = models['parkinsons'].predict([[fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]])
-        parkinsons_diagnosis = "The person has Parkinson's disease" if parkinsons_prediction[0] == 1 else "The person does not have Parkinson's disease"
-        st.success(parkinsons_diagnosis)
+    # ---------------- Parkinsons ----------------
+    elif selected == "Parkinsons Prediction":
+        st.subheader("Parkinson’s Disease Prediction")
 
-# Lung Cancer Prediction Page
-if selected == "Lung Cancer Prediction":
-    st.title("Lung Cancer")
-    st.write("Enter the following details to predict lung cancer:")
+        inputs = [display_input(f"Feature {i+1}", "Clinical voice measurement", f"p{i}") for i in range(22)]
 
-    GENDER = display_input('Gender (1 = Male; 0 = Female)', 'Enter gender of the person', 'GENDER', 'number')
-    AGE = display_input('Age', 'Enter age of the person', 'AGE', 'number')
-    SMOKING = display_input('Smoking (1 = Yes; 0 = No)', 'Enter if the person smokes', 'SMOKING', 'number')
-    YELLOW_FINGERS = display_input('Yellow Fingers (1 = Yes; 0 = No)', 'Enter if the person has yellow fingers', 'YELLOW_FINGERS', 'number')
-    ANXIETY = display_input('Anxiety (1 = Yes; 0 = No)', 'Enter if the person has anxiety', 'ANXIETY', 'number')
-    PEER_PRESSURE = display_input('Peer Pressure (1 = Yes; 0 = No)', 'Enter if the person is under peer pressure', 'PEER_PRESSURE', 'number')
-    CHRONIC_DISEASE = display_input('Chronic Disease (1 = Yes; 0 = No)', 'Enter if the person has a chronic disease', 'CHRONIC_DISEASE', 'number')
-    FATIGUE = display_input('Fatigue (1 = Yes; 0 = No)', 'Enter if the person experiences fatigue', 'FATIGUE', 'number')
-    ALLERGY = display_input('Allergy (1 = Yes; 0 = No)', 'Enter if the person has allergies', 'ALLERGY', 'number')
-    WHEEZING = display_input('Wheezing (1 = Yes; 0 = No)', 'Enter if the person experiences wheezing', 'WHEEZING', 'number')
-    ALCOHOL_CONSUMING = display_input('Alcohol Consuming (1 = Yes; 0 = No)', 'Enter if the person consumes alcohol', 'ALCOHOL_CONSUMING', 'number')
-    COUGHING = display_input('Coughing (1 = Yes; 0 = No)', 'Enter if the person experiences coughing', 'COUGHING', 'number')
-    SHORTNESS_OF_BREATH = display_input('Shortness Of Breath (1 = Yes; 0 = No)', 'Enter if the person experiences shortness of breath', 'SHORTNESS_OF_BREATH', 'number')
-    SWALLOWING_DIFFICULTY = display_input('Swallowing Difficulty (1 = Yes; 0 = No)', 'Enter if the person has difficulty swallowing', 'SWALLOWING_DIFFICULTY', 'number')
-    CHEST_PAIN = display_input('Chest Pain (1 = Yes; 0 = No)', 'Enter if the person experiences chest pain', 'CHEST_PAIN', 'number')
+        if st.button("Parkinson’s Test Result"):
+            result = models["parkinsons"].predict([inputs])
+            st.success("Parkinson’s Detected" if result[0] == 1 else "No Parkinson’s")
 
-    lungs_diagnosis = ''
-    if st.button("Lung Cancer Test Result"):
-        lungs_prediction = models['lung_cancer'].predict([[GENDER, AGE, SMOKING, YELLOW_FINGERS, ANXIETY, PEER_PRESSURE, CHRONIC_DISEASE, FATIGUE, ALLERGY, WHEEZING, ALCOHOL_CONSUMING, COUGHING, SHORTNESS_OF_BREATH, SWALLOWING_DIFFICULTY, CHEST_PAIN]])
-        lungs_diagnosis = "The person has lung cancer disease" if lungs_prediction[0] == 1 else "The person does not have lung cancer disease"
-        st.success(lungs_diagnosis)
+    # ---------------- Lung ----------------
+    elif selected == "Lung Cancer Prediction":
+        st.subheader("Lung Cancer Prediction")
 
-# Hypo-Thyroid Prediction Page
-if selected == "Hypo-Thyroid Prediction":
-    st.title("Hypo-Thyroid")
-    st.write("Enter the following details to predict hypo-thyroid disease:")
+        inputs = [display_input(f"Feature {i+1}", "Patient indicator", f"l{i}") for i in range(15)]
 
-    age = display_input('Age', 'Enter age of the person', 'age', 'number')
-    sex = display_input('Sex (1 = Male; 0 = Female)', 'Enter sex of the person', 'sex', 'number')
-    on_thyroxine = display_input('On Thyroxine (1 = Yes; 0 = No)', 'Enter if the person is on thyroxine', 'on_thyroxine', 'number')
-    tsh = display_input('TSH Level', 'Enter TSH level', 'tsh', 'number')
-    t3_measured = display_input('T3 Measured (1 = Yes; 0 = No)', 'Enter if T3 was measured', 't3_measured', 'number')
-    t3 = display_input('T3 Level', 'Enter T3 level', 't3', 'number')
-    tt4 = display_input('TT4 Level', 'Enter TT4 level', 'tt4', 'number')
+        if st.button("Lung Cancer Test Result"):
+            result = models["lungs"].predict([inputs])
+            st.success("Lung Cancer Detected" if result[0] == 1 else "No Lung Cancer")
 
-    thyroid_diagnosis = ''
-    if st.button("Thyroid Test Result"):
-        thyroid_prediction = models['thyroid'].predict([[age, sex, on_thyroxine, tsh, t3_measured, t3, tt4]])
-        thyroid_diagnosis = "The person has Hypo-Thyroid disease" if thyroid_prediction[0] == 1 else "The person does not have Hypo-Thyroid disease"
-        st.success(thyroid_diagnosis)
+    # ---------------- Thyroid ----------------
+    elif selected == "Hypo-Thyroid Prediction":
+        st.subheader("Hypo-Thyroid Prediction")
+
+        age = display_input("Age", "Age", "t_age")
+        sex = display_input("Sex (1=Male, 0=Female)", "Gender", "t_sex")
+        on_thyroxine = display_input("On Thyroxine", "1=yes,0=no", "thy")
+        tsh = display_input("TSH Level", "Hormone level", "tsh")
+        t3_measured = display_input("T3 Measured", "1=yes,0=no", "t3m")
+        t3 = display_input("T3 Level", "Hormone value", "t3")
+        tt4 = display_input("TT4 Level", "Total thyroxine", "tt4")
+
+        if st.button("Thyroid Test Result"):
+            result = models["thyroid"].predict([[age, sex, on_thyroxine, tsh, t3_measured, t3, tt4]])
+            st.success("Hypo-Thyroid Detected" if result[0] == 1 else "Normal Thyroid")
+
+# ==================================================
+# TAB 2 — ABOUT SYSTEM
+# ==================================================
+with tab_about:
+    st.header("About the System")
+
+    st.markdown("""
+    ### What This System Does
+    This application demonstrates how **trained machine learning models**
+    can estimate disease risk using structured clinical inputs.
+
+    ### Why This Matters
+    - Shows real-world AI system design
+    - Demonstrates ML model deployment
+    - Bridges data science & product engineering
+
+    ### How It Works
+    1. User inputs health parameters  
+    2. Pre-trained ML model processes data  
+    3. System returns risk classification  
+
+    ---
+    ⚠️ **Disclaimer**  
+    This system is for **educational purposes only** and must not be used
+    for medical diagnosis or treatment decisions.
+    """)

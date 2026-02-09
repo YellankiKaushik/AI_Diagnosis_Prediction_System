@@ -41,14 +41,14 @@ background-color: rgba(0, 0, 0, 0.7);
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# Load the saved models
 models = {
-    'diabetes': pickle.load(open('Models/diabetes_model.sav', 'rb')),
-    'heart_disease': pickle.load(open('Models/heart_disease_model.sav', 'rb')),
-    'parkinsons': pickle.load(open('Models/parkinsons_model.sav', 'rb')),
-    'lung_cancer': pickle.load(open('Models/lungs_disease_model.sav', 'rb')),
-    'thyroid': pickle.load(open('Models/Thyroid_model.sav', 'rb'))
+    'diabetes': pickle.load(open('MODELS/diabetes_model.sav', 'rb')),
+    'heart': pickle.load(open('MODELS/heart_disease_model.sav', 'rb')),
+    'parkinsons': pickle.load(open('MODELS/parkinsons_model.sav', 'rb')),
+    'lungs': pickle.load(open('MODELS/lungs_disease_model.sav', 'rb')),
+    'thyroid': pickle.load(open('MODELS/Thyroid_model.sav', 'rb'))
 }
+
 
 # Create a dropdown menu for disease prediction
 selected = st.selectbox(
